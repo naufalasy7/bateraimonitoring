@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Battery IoT Monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="panel-frame">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">⏚</span>
+      <div class="brand-text">
+        <span class="brand-title">Battery IoT Monitor</span>
+        <span class="brand-sub">Charge / discharge telemetry</span>
+      </div>
+    </div>
+
+    <div class="topbar-controls">
+      <label class="sheet-picker">
+        <span>Baterai</span>
+        <select id="sheetSelect">
+          <option value="">Memuat…</option>
+        </select>
+      </label>
+
+      <button id="refreshBtn" class="btn btn-ghost" title="Ambil data terbaru">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M17.65 6.35A8 8 0 1 0 19.94 13h-2.02A6 6 0 1 1 16.24 7.76L13 11h7V4z" fill="currentColor"/></svg>
+        Segarkan
+      </button>
+
+      <button id="downloadBtn" class="btn btn-solid" title="Unduh data mentah">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 20h14v-2H5v2zm7-18v11.17l3.59-3.58L17 11l-5 5-5-5 1.41-1.41L11 13.17V2h1z" fill="currentColor"/></svg>
+        Unduh data
+      </button>
+    </div>
+  </header>
+
+  <div class="status-strip">
+    <span id="connState" class="dot dot-idle"></span>
+    <span id="statusText">Menghubungkan ke Apps Script…</span>
+    <span class="status-sep">•</span>
+    <span>Terakhir diperbarui: <span id="lastUpdated">—</span></span>
+  </div>
+
+  <main class="grid">
+
+    <!-- Hero: SOC -->
+    <section class="card hero">
+      <div class="hero-label">State of charge</div>
+      <div class="hero-value">
+        <span id="socValue">--</span><span class="hero-unit">%</span>
+      </div>
+      <div class="soc-bar">
+        <div id="socBarFill" class="soc-bar-fill" style="width:0%"></div>
+        <div class="soc-bar-ticks">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="hero-foot">
+        <span id="relayBadge" class="badge badge-idle">RELAY —</span>
+        <span id="modeBadge" class="badge badge-idle">—</span>
+      </div>
+    </section>
+
+    <!-- Readout grid -->
+    <section class="card readouts">
+      <div class="readout">
+        <span class="readout-label">Tegangan</span>
+        <span class="readout-value"><span id="voltValue">--</span><small>V</small></span>
+      </div>
+      <div class="readout">
+        <span class="readout-label">Arus</span>
+        <span class="readout-value"><span id="currValue">--</span><small>mA</small></span>
+      </div>
+      <div class="readout">
+        <span class="readout-label">Tegangan sensor</span>
+        <span class="readout-value"><span id="vsensValue">--</span><small>V</small></span>
+      </div>
+      <div class="readout">
+        <span class="readout-label">State of health</span>
+        <span class="readout-value"><span id="sohValue">--</span><small>%</small></span>
+      </div>
+      <div class="readout">
+        <span class="readout-label">Siklus (EFC)</span>
+        <span class="readout-value"><span id="cycleValue">--</span><small>×</small></span>
+      </div>
+      <div class="readout">
+        <span class="readout-label">Sinyal WiFi</span>
+        <span class="readout-value"><span id="rssiValue">--</span><small>dBm</small></span>
+      </div>
+    </section>
+
+    <!-- Chart -->
+    <section class="card chart-card">
+      <div class="chart-head">
+        <span>Riwayat tegangan &amp; arus</span>
+        <div class="legend">
+          <span class="legend-item"><i class="dot-v"></i>Tegangan</span>
+          <span class="legend-item"><i class="dot-i"></i>Arus</span>
+        </div>
+      </div>
+      <canvas id="historyChart" width="900" height="260"></canvas>
+      <div id="chartEmpty" class="chart-empty">Belum ada data riwayat.</div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>Sheet aktif: <strong id="footerSheet">—</strong></span>
+    <span class="status-sep">•</span>
+    <span id="footerCount">0 titik data</span>
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
